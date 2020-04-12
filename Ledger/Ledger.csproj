@@ -1,29 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <PlatformTarget>x64</PlatformTarget>
-    </PropertyGroup>
-
     <Import Project="env.xml"/>
 
-    <ItemDefinitionGroup>
-        <PostBuildEvent>
-            <Command>powershell -NoProfile -ExecutionPolicy RemoteSigned -File PostBuild.ps1 -name $(ProjectName) -dll $(TargetPath) -install $(GamePath)</Command>
-        </PostBuildEvent>
-    </ItemDefinitionGroup>
-
     <PropertyGroup>
-        <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <FileVersion>1.0.0</FileVersion>
+        <PlatformTarget>x64</PlatformTarget>
+        <TargetFramework>net472</TargetFramework>
     </PropertyGroup>
 
-    <ItemGroup>
-        <Reference Include="System" />
-        <Reference Include="System.Core" />
-        <Reference Include="System.Data" />
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="powershell.exe -NoProfile -ExecutionPolicy RemoteSigned -File .\PostBuild.ps1 -name &quot;$(ProjectName)&quot; -dll &quot;$(TargetPath)&quot; -game &quot;$(GamePath)&quot; -config $(Configuration)" />
+    </Target>
 
+    <ItemGroup>
         <Reference Include="TaleWorlds.BattlEye.Client">
             <HintPath>$(GamePath)\bin\Win64_Shipping_Client\TaleWorlds.BattlEye.Client.dll</HintPath>
         </Reference>

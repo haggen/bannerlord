@@ -1,5 +1,5 @@
-dist/
-bin/
-obj/
+/dist
+/bin
+/obj
 
-env.xml
+/env.xml
